@@ -1,0 +1,22 @@
+image: node:16-buster-slim
+
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
+before_script:  
+  - apt-get update -qq && apt-get install
+
+stages:
+  - binaries
+
+Create binaries:
+  stage: binaries
+  tags:
+    - binary
+#   before_script:
+#     - yarn install
+  script:
+    - yarn install
+    # - yarn update-binaries && node copy-binaries-for-test.js && yarn docker-build
