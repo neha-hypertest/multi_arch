@@ -14,7 +14,8 @@ stages:
 Create binaries:
   stage: binaries
   tags:
-    - binary
+    - saas-linux-medium-amd64
+
 #   before_script:
 #     - yarn install
   script:
