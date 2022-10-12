@@ -1,5 +1,3 @@
-image: node:16-buster-slim
-
 cache:
   paths:
     - node_modules/
@@ -21,3 +19,4 @@ Create binaries:
   script:
     - yarn install
     # - yarn update-binaries && node copy-binaries-for-test.js && yarn docker-build
+    - pkg . --compress Gzip --targets node16-linux-amd64 --out-path bin 
