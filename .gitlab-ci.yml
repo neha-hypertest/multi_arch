@@ -21,5 +21,6 @@ Create binaries:
   script:
     - yarn install
     - npm install -g pkg
+    - dpkg --print-architecture
     # - yarn update-binaries && node copy-binaries-for-test.js && yarn docker-build
     - pkg index.js --compress Gzip --targets node16-linux-amd64 --out-path bin 
