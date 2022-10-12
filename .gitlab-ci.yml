@@ -28,7 +28,7 @@ binaries for amd:
     paths:
       - node_modules
   only: 
-    main
+    - main
 
 
 binaries for arm:
@@ -45,4 +45,4 @@ binaries for arm:
     # - yarn update-binaries-arm && node copy-binaries-for-test.js && yarn docker-build
     - pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
   only: 
-    main
+    - main
