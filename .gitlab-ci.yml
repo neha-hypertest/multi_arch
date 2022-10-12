@@ -11,7 +11,7 @@ before_script:
 stages:
   - binaries
 
-Create binaries:
+binaries for amd:
   stage: binaries
   tags:
     - saas-linux-medium-amd64
@@ -24,3 +24,25 @@ Create binaries:
     - dpkg --print-architecture
     # - yarn update-binaries && node copy-binaries-for-test.js && yarn docker-build
     - pkg index.js --compress Gzip --targets node16-linux-amd64 --out-path bin 
+  artifacts:
+    paths:
+      - node_modules
+  only: 
+    main
+
+
+binaries for arm:
+  stage: binaries
+  tags:
+    - saas-linux-medium-amd64
+
+#   before_script:
+#     - yarn install
+  script:
+    - yarn install
+    - npm install -g pkg
+    - dpkg --print-architecture
+    # - yarn update-binaries-arm && node copy-binaries-for-test.js && yarn docker-build
+    - pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
+  only: 
+    main
