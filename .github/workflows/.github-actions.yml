@@ -17,7 +17,7 @@ jobs:
 #           ls ${{ github.workspace }}
 #       - run: echo "🍏 This job's status is ${{ job.status }}."
         - run: sudo apt install npm
-        - run: sudo npm install yarn –g
+        - run: sudo npm install -y -g yarn
         - run: yarn install
         - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
         - run: npm install -g pkg
