@@ -47,6 +47,6 @@ binaries-arm64:
   only: 
     - main
   
-build-manifest:
-  stage: build-manifest
-  when: manual
+# build-manifest:
+#   stage: build-manifest
+#   when: manual
