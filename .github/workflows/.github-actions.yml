@@ -3,30 +3,39 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
   Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-18.04
+    name: Build on ubuntu-18.04 armv7
     steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: uraimo/run-on-arch-action@v2
+        name: Run commands
+        id: runcmd
+        with:
+          arch: armv8
+          distro: ubuntu18.04
+          run: dpkg --print-architecture
+
 #       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 #       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
 #       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-        - name: Check out repository code
-          uses: actions/checkout@v3
-        - uses: pguyot/arm-runner-action@v2
-          with:
-            base_image: raspios_lite:2022-04-04
-            commands: |
-              dpkg --print-architecture
-              ls
-#       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-#       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-#       - name: List files in the repository
-#         run: |
-#           ls ${{ github.workspace }}
-#       - run: echo "🍏 This job's status is ${{ job.status }}."
-#         - run: sudo apt install npm
-#         - run: sudo npm install -y -g yarn
-#         - run: yarn install
-#         - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-#         - run: npm install -g pkg
-        - run: dpkg --print-architecture
+#         - name: Check out repository code
+#           uses: actions/checkout@v3
+#         - uses: pguyot/arm-runner-action@v2
+#           with:
+#             base_image: raspios_lite:2022-04-04
+#             commands: |
+#               dpkg --print-architecture
+#               ls
+# #       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+# #       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+# #       - name: List files in the repository
+# #         run: |
+# #           ls ${{ github.workspace }}
+# #       - run: echo "🍏 This job's status is ${{ job.status }}."
+# #         - run: sudo apt install npm
+# #         - run: sudo npm install -y -g yarn
+# #         - run: yarn install
+# #         - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
+# #         - run: npm install -g pkg
+       
 #         - run: pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
