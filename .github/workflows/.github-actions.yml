@@ -12,10 +12,11 @@ jobs:
         name: Run commands
         id: runcmd
         with:
-          arch: armv7
-          distro: ubuntu18.04
+          arch: aarch64	
+          distro: ubuntu22.04
           run: |
             uname -a
+            dpkg --print-architecture
             echo ::set-output name=uname::$(uname -a)
 
 #       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
