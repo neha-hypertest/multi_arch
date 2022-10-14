@@ -22,12 +22,16 @@ jobs:
             # echo ::set-output name=uname::$(uname -a)
             echo "updating "
             apt-get update > /dev/null
+            echo "installing curl"
             apt install -y curl > /dev/null
+            echo "installing docker"
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
             docker -v 
             # docker run hello-world
             ls
-            sudo apt-get install npm --no-install-recommends
+            echo "installing npm"
+            apt-get install npm --no-install-recommends
+            echo "installing yarn"
             npm install -y -g yarn
             dpkg --print-architecture
             pwd 
