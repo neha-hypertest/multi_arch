@@ -30,7 +30,7 @@ jobs:
             # docker run hello-world
             ls
             echo "installing npm"
-            apt-get install npm --no-install-recommends
+            apt-get install -y npm --no-install-recommends
             echo "installing yarn"
             npm install -y -g yarn
             dpkg --print-architecture
