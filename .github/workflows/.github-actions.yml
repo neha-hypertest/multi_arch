@@ -9,10 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v3.5.1
         with:
           node-version: 16
+      - run: echo "node version"
       - run: node -v
+      - run: echo "
       - run: dpkg --print-architecture
       - run: yarn install
       - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
@@ -60,3 +62,9 @@ jobs:
             npm install -y -g pkg            
             pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
             ls bin/
+  docker-manifest:
+    # The host should always be Linux
+    runs-on: ubuntu-22.04
+    name: Building docker manifest
+    steps:
+      - uses: actions/checkout@v3
