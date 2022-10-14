@@ -8,6 +8,9 @@ jobs:
     name: Build on ubuntu-18.04 armv7
     steps:
       - uses: actions/checkout@v2.1.0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd
@@ -16,6 +19,7 @@ jobs:
           distro: ubuntu22.04
           run: |
             echo "starting commands"
+            node -v
             uname -a
             echo "Runner architecture"
             dpkg --print-architecture
