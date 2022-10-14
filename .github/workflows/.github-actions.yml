@@ -26,8 +26,8 @@ jobs:
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
             docker -v 
             # docker run hello-world
-            sudo apt install npm > /dev/null
-            sudo npm install yarn –g
+            apt install npm > /dev/null
+            npm install yarn –g
             pwd 
             ls
             yarn install
