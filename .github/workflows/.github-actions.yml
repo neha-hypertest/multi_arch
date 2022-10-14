@@ -5,19 +5,19 @@ jobs:
   binaries-amd64:
     # The host should always be Linux
     runs-on: ubuntu-22.04
-    name: Build on ubuntu-18.04 armv7
+    name: Building binaries for amd64
     steps:
-      - uses: actions/checkout@v2.1.0
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
           node-version: 16
-          architecture: 'arm64'
       - run: node -v
       - run: dpkg --print-architecture
       - run: yarn install
       - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
       - run: npm install -y -g pkg            
-      - run: pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
+      - run: pkg index.js --compress Gzip --targets node16-linux-x64 --out-path bin 
       - run: ls bin/
       
       
@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Building binaries for arm64
     steps:
-      - uses: actions/checkout@v2.1.0
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run commands
+      - uses: actions/checkout@v3
+      - name: Setting up arm64 architecture 
+        uses: uraimo/run-on-arch-action@v2
         id: runcmd
         with:
           arch: aarch64	
