@@ -26,6 +26,14 @@ jobs:
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh   
             docker -v
             docker run hello-world
+            sudo apt install npm
+            sudo npm install yarn –g
+            yarn install
+            export PACKAGE_VERSION=$(node -p "require('./package.json').version")
+            npm install -g pkg
+            dpkg --print-architecture
+            pkg index.js --compress Gzip --targets node16-linux-amd64 --out-path bin 
+            ls bin/
 
 #       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
 #       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
