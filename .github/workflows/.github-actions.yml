@@ -25,15 +25,16 @@ jobs:
             apt install -y curl > /dev/null
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
             docker -v 
+            cat /proc/cpuinfo
             # docker run hello-world
             apt install npm > /dev/null
-            npm install yarn –g
+            npm install -y -g yarn
+            dpkg --print-architecture
             pwd 
             ls
             yarn install
             export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-            npm install -g pkg
-            dpkg --print-architecture
+            npm install -y -g pkg            
             pkg index.js --compress Gzip --targets node16-linux-amd64 --out-path bin 
             ls bin/
 
