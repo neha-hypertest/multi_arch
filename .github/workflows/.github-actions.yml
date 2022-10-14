@@ -15,11 +15,14 @@ jobs:
           arch: aarch64	
           distro: ubuntu22.04
           run: |
+            echo "starting commands"
             uname -a
+            echo "Runner architecture"
             dpkg --print-architecture
-            echo ::set-output name=uname::$(uname -a)
-            apt update
-            apt install -y curl
+            # echo ::set-output name=uname::$(uname -a)
+            echo "updating "
+            #apt-get update
+            #apt install -y curl
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh   
             docker -v
 
