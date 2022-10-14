@@ -21,13 +21,15 @@ jobs:
             dpkg --print-architecture
             # echo ::set-output name=uname::$(uname -a)
             echo "updating "
-            apt-get update
-            apt install -y curl
-            curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh   
-            docker -v
-            docker run hello-world
-            sudo apt install npm
+            apt-get update > /dev/null
+            apt install -y curl > /dev/null
+            curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
+            docker -v 
+            # docker run hello-world
+            sudo apt install npm > /dev/null
             sudo npm install yarn –g
+            pwd 
+            ls
             yarn install
             export PACKAGE_VERSION=$(node -p "require('./package.json').version")
             npm install -g pkg
