@@ -10,7 +10,12 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - uses: actions/setup-node@v3
         with:
+          architecture: aarch64
           node-version: '16'
+          run: |
+            echo "starting"
+            node -v
+            dpkg --print-architecture
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd
@@ -19,7 +24,6 @@ jobs:
           distro: ubuntu22.04
           run: |
             echo "starting commands"
-            node -v
             uname -a
             echo "Runner architecture"
             dpkg --print-architecture
@@ -48,11 +52,13 @@ jobs:
   binaries-arm64:
     # The host should always be Linux
     runs-on: ubuntu-22.04
-    name: BUilding binaries for arm64
+    name: Building binaries for arm64
     steps:
       - uses: actions/checkout@v2.1.0
-      - uses: actions/setup-node@v3
-        with:
+      - uses: actions/setup-node@v3.5.1
+        name: install node
+        id: runcmd
+        with:       
           node-version: '16'
           run: |
             echo "starting commands"
