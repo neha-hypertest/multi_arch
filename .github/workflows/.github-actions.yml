@@ -39,7 +39,7 @@ jobs:
             yarn install
             export PACKAGE_VERSION=$(node -p "require('./package.json').version")
             npm install -y -g pkg            
-            pkg index.js --compress Gzip --targets node16-linux-amd64 --out-path bin 
+            pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
             ls bin/
 
 #       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
