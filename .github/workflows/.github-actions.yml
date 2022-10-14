@@ -10,12 +10,21 @@ jobs:
       - uses: actions/checkout@v2.1.0
       - uses: actions/setup-node@v3
         with:
-          architecture: aarch64
-          node-version: '16'
-          run: |
-            echo "starting"
-            node -v
-            dpkg --print-architecture
+          node-version: 16
+      - run: node -v
+      - run: yarn install
+      - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
+      - run: npm install -y -g pkg            
+      - run: pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
+      - run: ls bin/
+      
+      
+  binaries-arm64:
+    # The host should always be Linux
+    runs-on: ubuntu-22.04
+    name: Building binaries for arm64
+    steps:
+      - uses: actions/checkout@v2.1.0
       - uses: uraimo/run-on-arch-action@v2
         name: Run commands
         id: runcmd
@@ -49,43 +58,3 @@ jobs:
             npm install -y -g pkg            
             pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
             ls bin/
-  binaries-arm64:
-    # The host should always be Linux
-    runs-on: ubuntu-22.04
-    name: Building binaries for arm64
-    steps:
-      - uses: actions/checkout@v2.1.0
-      - uses: actions/setup-node@v3.5.1
-        name: install node
-        id: runcmd
-        with:       
-          node-version: '16'
-          run: |
-            echo "starting commands"
-            node -v
-            uname -a
-            echo "Runner architecture"
-            dpkg --print-architecture
-            # echo ::set-output name=uname::$(uname -a)
-            echo "updating "
-            apt-get update > /dev/null
-            echo "installing curl"
-            apt install -y curl > /dev/null
-            echo "installing docker"
-            curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
-            docker -v 
-            # docker run hello-world
-            ls
-            #echo "installing npm"
-            #apt-get install -y npm --no-install-recommends
-            #echo "installing yarn"
-            #npm install -y -g yarn
-            dpkg --print-architecture
-            pwd 
-            ls
-            yarn install
-            export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-            npm install -y -g pkg            
-            pkg index.js --compress Gzip --targets node16-linux-x64 --out-path bin 
-            ls bin/
-  
