@@ -27,7 +27,7 @@ jobs:
             docker -v 
             # docker run hello-world
             ls
-            apt install npm
+            sudo apt-get install npm --no-install-recommends
             npm install -y -g yarn
             dpkg --print-architecture
             pwd 
