@@ -11,7 +11,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+          architecture: 'arm64'
       - run: node -v
+      - run: dpkg --print-architecture
       - run: yarn install
       - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
       - run: npm install -y -g pkg            
