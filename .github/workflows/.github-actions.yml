@@ -25,9 +25,9 @@ jobs:
             apt install -y curl > /dev/null
             curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
             docker -v 
-            cat /proc/cpuinfo
             # docker run hello-world
-            apt install npm > /dev/null
+            ls
+            apt install npm
             npm install -y -g yarn
             dpkg --print-architecture
             pwd 
