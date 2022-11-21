@@ -5,8 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  # push:
-  #   branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 env:
-  HT_BASE_URL: '${{ secrets.HYPERTEST_BASE_URL }}'
+  HT_BASE_URL: '${{ secrets.HT_BASE_URL }}'
   HT_COMMIT_HASH: '${{ github.event.pull_request.head.sha }}' ## required because checkout creates a detached commit with a different sha
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
