@@ -6,9 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
-#COPY ./bin/ ./
 COPY . .
 
 EXPOSE 5000
 CMD [ "node", "index.js" ]
-#CMD ["./index"]
