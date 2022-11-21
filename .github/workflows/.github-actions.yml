@@ -1,70 +1,61 @@
-name: GitHub Actions
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # push:
+  #   branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  HT_BASE_URL: '${{ secrets.HYPERTEST_BASE_URL }}'
+  HT_COMMIT_HASH: '${{ github.event.pull_request.head.sha }}' ## required because checkout creates a detached commit with a different sha
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  binaries-amd64:
-    # The host should always be Linux
-    runs-on: ubuntu-22.04
-    name: Building binaries for amd64
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3.5.1
-        with:
-          node-version: 16
-      - run: echo "node version"
-      - run: node -v
-      - run: echo "
-      - run: dpkg --print-architecture
-      - run: yarn install
-      - run: export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-      - run: npm install -y -g pkg            
-      - run: pkg index.js --compress Gzip --targets node16-linux-x64 --out-path bin 
-      - run: ls bin/
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
       
-      
-  binaries-arm64:
-    # The host should always be Linux
-    runs-on: ubuntu-22.04
-    name: Building binaries for arm64
+  deploy-to-test-env:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setting up arm64 architecture 
-        uses: uraimo/run-on-arch-action@v2
-        id: runcmd
         with:
-          arch: aarch64	
-          distro: ubuntu22.04
-          run: |
-            echo "starting commands"
-            uname -a
-            echo "Runner architecture"
-            dpkg --print-architecture
-            # echo ::set-output name=uname::$(uname -a)
-            echo "updating "
-            apt-get update > /dev/null
-            echo "installing curl"
-            apt install -y curl > /dev/null
-            echo "installing docker"
-            curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh > /dev/null   
-            docker -v 
-            # docker run hello-world
-            ls
-            echo "installing npm"
-            apt-get install -y npm --no-install-recommends
-            echo "installing yarn"
-            npm install -y -g yarn
-            dpkg --print-architecture
-            pwd 
-            ls
-            yarn install
-            export PACKAGE_VERSION=$(node -p "require('./package.json').version")
-            npm install -y -g pkg            
-            pkg index.js --compress Gzip --targets node16-linux-arm64 --out-path bin 
-            ls bin/
-  docker-manifest:
-    # The host should always be Linux
-    runs-on: ubuntu-22.04
-    name: Building docker manifest
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          printenv
+
+  hypertest-start-test:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - name: download hypertest ci
+      run: wget -O ht-cli.tar.xz https://hypertest-binaries-1.s3.ap-south-1.amazonaws.com/ht-cli/ht-cli-latest.tar.xz && tar xvf ht-cli.tar.xz
+    
+    - name: hypertest-start-test
+      run: ./hypertest start-new-test
