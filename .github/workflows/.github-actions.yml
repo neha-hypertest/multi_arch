@@ -16,7 +16,7 @@ on:
 env:
   HT_BASE_URL: '${{ secrets.HT_BASE_URL }}'
   HT_COMMIT_HASH: '${{ github.event.pull_request.head.sha }}' ## required because checkout creates a detached commit with a different sha
-  IMAGE_NAME: sample-errors
+  IMAGE_NAME: multi-arch
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -46,17 +46,27 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
 
 
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
+      - name: Update Image Version
+        id: imgupd
+        uses: mikefarah/yq@master
         with:
-          token: $GITHUB_TOKEN
-          repository: ${{ github.actor }}/multi-arch
-          event-type: new-image
-          client-payload: '{"image": "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
+          cmd: yq eval '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/deployment.yaml
+      
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply image name changes
+
+
+      # - name: Repository Dispatch
+      #   uses: peter-evans/repository-dispatch@v1
+      #   with:
+      #     event-type: new-image
+      #     client-payload: '{"image": "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
 
       
   hypertest-start-test:
     runs-on: ubuntu-latest
+    needs: build
     steps:
     - name: download hypertest ci
       run: wget -O ht-cli.tar.xz https://hypertest-binaries-1.s3.ap-south-1.amazonaws.com/ht-cli/ht-cli-latest.tar.xz && tar xvf ht-cli.tar.xz
