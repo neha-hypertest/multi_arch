@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: multi-arch
+  name: multi-arch-deployment
   namespace: multi-arch
 spec:
   selector:
