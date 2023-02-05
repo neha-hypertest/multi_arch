@@ -15,7 +15,6 @@ spec:
     spec:
       containers:
         - name: multi-arch
-          image: gboie/examplenode-dev:4
+          image: nehahypertest/multi-arch:49
           ports:
             - containerPort: 3000
-
