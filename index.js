@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
     res.end();
 })
 
-// Server listening to port 3000
+// Server listening to port 5000
 server.listen((5000), () => {
     console.log("Server is Running");
 })

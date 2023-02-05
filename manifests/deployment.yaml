@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-arch
+  namespace: multi-arch
+spec:
+  selector:
+    matchLabels:
+      app: multi-arch
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: multi-arch
+    spec:
+      containers:
+        - name: multi-arch
+          image: gboie/examplenode-dev:4
+          ports:
+            - containerPort: 3000
+
