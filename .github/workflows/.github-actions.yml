@@ -55,14 +55,6 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply image name changes
-
-
-      # - name: Repository Dispatch
-      #   uses: peter-evans/repository-dispatch@v1
-      #   with:
-      #     event-type: new-image
-      #     client-payload: '{"image": "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"}'
-
       
   hypertest-start-test:
     runs-on: ubuntu-latest
