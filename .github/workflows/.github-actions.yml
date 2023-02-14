@@ -16,7 +16,7 @@ on:
 env:
   HT_BASE_URL: '${{ secrets.HT_BASE_URL }}'
   HT_COMMIT_HASH: '${{ github.event.pull_request.head.sha }}' ## required because checkout creates a detached commit with a different sha
-  IMAGE_NAME: multi-arch-test
+  IMAGE_NAME: sample-errors
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -43,7 +43,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ GITHUB_REF_NAME }}-${{ github.run_number }}
 
       # - name: Repository Dispatch
       #   uses: peter-evans/repository-dispatch@v1
@@ -59,7 +59,9 @@ jobs:
         id: imgupd
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/deployment.yaml
+          cmd: |
+            yq eval '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/deployment.yaml
+            yq eval '.spec.ports[0].port = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/service.yaml
       
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
