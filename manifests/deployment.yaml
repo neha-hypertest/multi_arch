@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: multi-arch
-          image: nehahypertest/multi-arch-test:51
+          image: nehahypertest/multi-arch-test:53
           ports:
             - containerPort: 3000
