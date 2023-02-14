@@ -59,7 +59,9 @@ jobs:
         id: imgupd
         uses: mikefarah/yq@master
         with:
-          cmd: yq eval '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/deployment.yaml
+          cmd: |
+            yq eval '.spec.template.spec.containers[0].image = "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/deployment.yaml
+            yq eval '.spec.ports[0].port= "${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}"' -i manifests/secrets.yaml
       
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
